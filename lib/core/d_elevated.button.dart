@@ -28,16 +28,17 @@ class DElevatedButton extends StatelessWidget {
             style: ElevatedButton.styleFrom(
                 disabledBackgroundColor: backgroundColor.withValues(alpha: 0.7),
                 disabledForegroundColor: foregroundColor.withValues(alpha: 0.7),
-                elevation: 1,
-                backgroundColor: loading == true ? backgroundColor.withValues(alpha: 0.7) : backgroundColor,
+                elevation: 0.7,
+                backgroundColor: loading == true || disabled == true ? backgroundColor.withValues(alpha: 0.7) : backgroundColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     side: BorderSide(
-                        color: loading == true ? backgroundColor.withValues(alpha: 0.7) : backgroundColor, // Border color
+                        color: loading == true || disabled == true ? backgroundColor.withValues(alpha: 0.7) : backgroundColor, // Border color
                         width: 1
                     )
                 ),
-                minimumSize: Size(double.infinity, 50)),
+                minimumSize: Size(double.infinity, 50)
+            ),
             onPressed: disabled == true || loading == true ? null : onPressed,
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,21 +55,19 @@ class DElevatedButton extends StatelessWidget {
                             )
                         )
                     ),
-                    if (leftIcon != null)
+                    if (leftIcon != null && loading == false)
                     Padding(
                         padding: EdgeInsets.only(right: 10),
                         child: Icon(leftIcon, color: foregroundColor, size: 18)
                     ),
-                    Expanded(
-                      child: Text(
-                          text,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                              color: foregroundColor,
-                              fontWeight: FontWeight.bold
-                          )
-                      ),
+                    Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                            color: foregroundColor,
+                            fontWeight: FontWeight.bold
+                        )
                     ),
                     if (rightIcon != null)
                     Padding(

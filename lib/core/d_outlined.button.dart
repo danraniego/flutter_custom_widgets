@@ -32,7 +32,7 @@ class DOutlinedButton extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0)
                 ),
                 side: BorderSide(width: 1.0, color: loading == true || disabled == true ?
-                  foregroundColor.withValues(alpha: 0.7) : foregroundColor),
+                        foregroundColor.withValues(alpha: 0.7) : foregroundColor),
                 minimumSize: Size(double.infinity, 50)
             ),
             onPressed: disabled == true || loading == true ? null : onPressed,
@@ -47,25 +47,23 @@ class DOutlinedButton extends StatelessWidget {
                             width: 15,
                             height: 15,
                             child: CircularProgressIndicator(
-                                strokeWidth: 1, color: foregroundColor
+                                strokeWidth: 2, color: foregroundColor
                             )
                         )
                     ),
-                    if (leftIcon != null)
+                    if (leftIcon != null && loading == false)
                     Padding(
                         padding: EdgeInsets.only(right: 10),
                         child: Icon(leftIcon, color: foregroundColor, size: 18)
                     ),
-                    Expanded(
-                        child: Text(
-                            text,
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                                color: loading == true || disabled == true ?
-                                  foregroundColor.withValues(alpha: 0.7) : foregroundColor,
-                                fontWeight: FontWeight.bold
-                            )
+                    Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                            color: loading == true || disabled == true ?
+                                foregroundColor.withValues(alpha: 0.7) : foregroundColor,
+                            fontWeight: FontWeight.bold
                         )
                     ),
                     if (rightIcon != null)

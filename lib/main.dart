@@ -1,8 +1,8 @@
 import 'package:c_widgets/appbar.dart';
-import 'package:c_widgets/screens/buttons.dart';
 import 'package:flutter/material.dart';
-
-import 'dcolor.dart';
+import 'package:c_widgets/samples/buttons.dart';
+import 'package:c_widgets/samples/forms.dart';
+import 'package:c_widgets/config/dconfig.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => const MyHomePage(title: 'Custom Widgets'),
         '/buttons': (context) => const Buttons(),
+        '/forms': (context) => const Forms(),
       },
       initialRoute: '/home',
     );

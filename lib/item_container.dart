@@ -29,6 +29,7 @@ class ItemContainer extends StatelessWidget {
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           child,
           const SizedBox(height: 10),
