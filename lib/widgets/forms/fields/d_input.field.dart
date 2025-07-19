@@ -1,20 +1,22 @@
-import 'package:c_widgets/core/d_form_field.dart';
 import 'package:c_widgets/widgets/forms/fields/types/d_address.field.dart';
 import 'package:c_widgets/widgets/forms/fields/types/d_email.field.dart';
 import 'package:c_widgets/widgets/forms/fields/types/d_number.field.dart';
+import 'package:c_widgets/widgets/forms/fields/types/d_password.field.dart';
 import 'package:c_widgets/widgets/forms/fields/types/d_phone.field.dart';
 import 'package:c_widgets/widgets/forms/fields/types/d_text.field.dart';
 import 'package:c_widgets/widgets/forms/fields/types/d_textarea.field.dart';
 import 'package:c_widgets/widgets/forms/fields/types/d_url.field.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 enum DInputType {
     text('Text'),
+    password('Password'),
     phone('Phone'),
     email('Email'),
     url('URL'),
     address('Address'),
     textarea('Textarea'),
+    search('Search'),
     number('Number');
 
     final String label;
@@ -34,9 +36,9 @@ class PhoneOptions {
 
 class DInputField extends StatelessWidget {
 
-    final TextEditingController controller;
+    final TextEditingController? controller;
     final DInputType inputType;
-    final String labelText;
+    final String? labelText;
     final String? hintText;
     final String? validationKey;
     final bool? required;
@@ -46,9 +48,9 @@ class DInputField extends StatelessWidget {
     final PhoneOptions? options;
 
     const DInputField({
-        required this.controller,
+        this.controller,
         this.inputType = DInputType.text,
-        required this.labelText,
+        this.labelText,
         this.hintText,
         this.validationKey,
         this.required = false,
@@ -72,6 +74,16 @@ class DInputField extends StatelessWidget {
                     readOnly: readOnly,
                     prefixIcon: leftIcon,
                     suffixIcon: rightIcon
+                );
+            case DInputType.password:
+                return DPasswordField(
+                    controller: controller,
+                    labelText: labelText,
+                    hintText: hintText,
+                    validationKey: validationKey,
+                    required: required,
+                    readOnly: readOnly,
+                    prefixIcon: leftIcon,
                 );
             case DInputType.phone:
                 return DPhoneField(
@@ -138,6 +150,14 @@ class DInputField extends StatelessWidget {
                     readOnly: readOnly,
                     prefixIcon: leftIcon,
                     suffixIcon: rightIcon
+                );
+            case DInputType.search:
+                return DTextField(
+                    controller: controller,
+                    labelText: labelText,
+                    hintText: hintText,
+                    readOnly: readOnly,
+                    prefixIcon: CupertinoIcons.search,
                 );
         }
     }

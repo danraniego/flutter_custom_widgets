@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DColor {
@@ -15,4 +16,15 @@ class DTextFieldConfig {
   static const Color fillColor = Colors.transparent;
   static const Color prefixIconColor = Color.fromARGB(255, 228, 228, 231);
   static const Color suffixIconColor = Color.fromARGB(255, 228, 228, 231);
+}
+
+class DIcons {
+  static const IconData search = CupertinoIcons.search;
+  static const IconData close = Icons.close;
+}
+
+class DRadius {
+  static const double defaultRadius = 8.0;
+  static const double smallRadius = 4.0;
+  static const double largeRadius = 12.0;
 }

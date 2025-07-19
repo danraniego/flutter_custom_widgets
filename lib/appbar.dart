@@ -14,11 +14,37 @@ class _SideDrawerState extends State<SideDrawer> {
             child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                    ListTile(
+                    ExpansionTile(
                         title: Text('Buttons'),
-                        onTap: () {
-                            Navigator.pushNamed(context, '/buttons');
-                        }
+                        children: <Widget>[
+                            Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: ListTile(
+                                    title: Text('Normal Buttons'),
+                                    onTap: () {
+                                        Navigator.pushNamed(context, '/buttons/normal');
+                                    }
+                                )
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: ListTile(
+                                    title: Text('Group Buttons'),
+                                    onTap: () {
+                                        Navigator.pushNamed(context, '/buttons/group');
+                                    }
+                                )
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: ListTile(
+                                    title: Text('Icon Buttons'),
+                                    onTap: () {
+                                        Navigator.pushNamed(context, '/buttons/icon');
+                                    }
+                                )
+                            )
+                        ]
                     ),
                     ListTile(
                         title: Text('Forms'),
@@ -27,17 +53,9 @@ class _SideDrawerState extends State<SideDrawer> {
                         }
                     ),
                     ListTile(
-                        leading: Icon(Icons.settings),
-                        title: Text('Settings'),
+                        title: Text('Sheets'),
                         onTap: () {
-                            // Handle navigation
-                        }
-                    ),
-                    ListTile(
-                        leading: Icon(Icons.logout),
-                        title: Text('Logout'),
-                        onTap: () {
-                            // Handle logout
+                            Navigator.pushNamed(context, '/sheets');
                         }
                     )
                 ]

@@ -25,8 +25,8 @@ class DCountryPhoneCode {
 
 class DPhoneField extends StatelessWidget {
 
-    final TextEditingController controller;
-    final String labelText;
+    final TextEditingController? controller;
+    final String? labelText;
     final List<DCountryPhoneCode>? countryCodes;
     final DCountryPhoneCode? initialCountryCode;
     final String? hintText;
@@ -37,8 +37,8 @@ class DPhoneField extends StatelessWidget {
     final VoidCallback? onCountryCodeTap;
 
     const DPhoneField({
-        required this.controller,
-        required this.labelText,
+        this.controller,
+        this.labelText,
         this.countryCodes,
         this.initialCountryCode,
         this.hintText,

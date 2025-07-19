@@ -1,3 +1,4 @@
+import 'package:c_widgets/config/dconfig.dart';
 import 'package:flutter/material.dart';
 
 class DOutlinedButton extends StatelessWidget {
@@ -10,6 +11,9 @@ class DOutlinedButton extends StatelessWidget {
     final IconData? leftIcon;
     final IconData? rightIcon;
     final VoidCallback? onPressed;
+    final OutlinedBorder? shape;
+    final BorderSide? side;
+    final bool? active;
 
     const DOutlinedButton({
         super.key,
@@ -20,20 +24,38 @@ class DOutlinedButton extends StatelessWidget {
         this.disabled = false,
         this.leftIcon,
         this.rightIcon,
-        this.onPressed
+        this.onPressed,
+        this.shape,
+        this.side,
+        this.active
     });
+
+    getBorderColor() {
+        if (loading == true || disabled == true) {
+            if (active == true) {
+                return backgroundColor.withValues(alpha: 0.7);
+            }
+            return foregroundColor.withValues(alpha: 0.7);
+        }
+
+        if (active == true) {
+          return backgroundColor.withValues(alpha: 0.7);
+        }
+        return foregroundColor;
+    }
 
     @override
     Widget build(BuildContext context) {
         return OutlinedButton(
             style: OutlinedButton.styleFrom(
+                backgroundColor: backgroundColor,
                 elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0)
+                shape: shape ?? RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(DRadius.defaultRadius)
                 ),
-                side: BorderSide(
+                side: side ?? BorderSide(
                     width: 1.0,
-                    color: loading == true || disabled == true ? foregroundColor.withValues(alpha: 0.7) : foregroundColor
+                    color: getBorderColor()
                 ),
                 minimumSize: Size(double.infinity, 50)
             ),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class DEmailField extends StatelessWidget {
 
-  final TextEditingController controller;
-  final String labelText;
+  final TextEditingController? controller;
+  final String? labelText;
   final String? hintText;
   final String? validationKey;
   final bool? required;
@@ -13,8 +13,8 @@ class DEmailField extends StatelessWidget {
   final IconData? suffixIcon;
 
   const DEmailField({
-    required this.controller,
-    required this.labelText,
+    this.controller,
+    this.labelText,
     this.hintText,
     this.validationKey,
     this.required = false,
