@@ -3,7 +3,6 @@ import 'package:c_widgets/item_container.dart';
 import 'package:c_widgets/item_row.dart';
 import 'package:c_widgets/widgets/buttons/de.button.dart';
 import 'package:c_widgets/widgets/buttons/do.button.dart';
-import 'package:c_widgets/widgets/forms/checkbox/d_list_card.checkbox.dart';
 import 'package:c_widgets/widgets/forms/checkbox/d_list_tile.checkbox.dart';
 import 'package:flutter/material.dart';
 

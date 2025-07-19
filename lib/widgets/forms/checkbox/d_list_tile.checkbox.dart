@@ -6,11 +6,13 @@ class DListTileCheckBox extends StatelessWidget {
     final String title;
     final bool value;
     final OnChanged onChanged;
+    final bool? enabled;
 
     const DListTileCheckBox({
         required this.title,
         required this.value,
         required this.onChanged,
+        this.enabled = true,
         super.key
     });
 
@@ -23,6 +25,7 @@ class DListTileCheckBox extends StatelessWidget {
                     CheckboxListTile(
                         title: Text(title),
                         activeColor: DColor.primary,
+                        enabled: enabled,
                         value: value,
                         onChanged: (bool? value) => onChanged(value)
                     ),

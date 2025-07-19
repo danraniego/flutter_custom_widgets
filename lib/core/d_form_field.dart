@@ -6,6 +6,7 @@ enum DFValidation {
     required('Required'),
     email('Email'),
     phone('Phone'),
+    number('Number'),
     url('URL');
 
     final String label;
@@ -15,33 +16,71 @@ enum DFValidation {
 
 class DFValidator {
 
-    static bool isValidEmail(String email) {
+    static String? isValidEmail(String value, [String key = 'Email', bool required = false]) {
         final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-        return emailRegex.hasMatch(email);
+        var valid =  emailRegex.hasMatch(value);
+
+        if (required == true && value.isNotEmpty) {
+            if (valid) {
+                return null;
+            } else {
+                return "Please enter a valid $key.";
+            }
+        } else if (!required && value.isNotEmpty) {
+            if (valid) {
+                return null;
+            } else {
+                return "Please enter a valid $key.";
+            }
+        } else {
+            return null;
+        }
     }
 
     static String? isValidPhone(String value, [String key = 'Phone', bool required = false]) {
+        var valid = RegExp(r'^\+?[\d\s\-\(\)]+$').hasMatch(value);
         final digits = value.replaceAll(RegExp(r'\D'), '');
         int max = 10;
 
         if (required == true && value.isNotEmpty) {
 
-            if (digits.length < 10) {
+            if (digits.length < max) {
                 return "Please enter a valid $key.";
             }
 
-            if (RegExp(r'^\+?[\d\s\-\(\)]+$').hasMatch(value)) {
+            if (valid) {
                 return null; // Valid phone number
             } else {
                 return "Please enter a valid $key.";
             }
         } else if (!required && value.isNotEmpty) {
-            if (value.length < max && value.length > 1) {
+            if (digits.length < max && digits.length > 1) {
                 return "Please enter a valid $key.";
             }
 
-            if (RegExp(r'^\+?[\d\s\-\(\)]+$').hasMatch(value)) {
+            if (valid) {
                 return null; // Valid phone number
+            } else {
+                return "Please enter a valid $key.";
+            }
+        } else {
+            return null;
+        }
+    }
+
+    static String? isValidUrl(String value, [String key = 'URL', bool required = false]) {
+        final urlRegex = RegExp(r'^(https?|ftp)://[^\s/$.?#].[^\s]*$');
+        var valid =  urlRegex.hasMatch(value);
+
+        if (required == true && value.isNotEmpty) {
+            if (valid) {
+                return null;
+            } else {
+                return "Please enter a valid $key.";
+            }
+        } else if (!required && value.isNotEmpty) {
+            if (valid) {
+                return null;
             } else {
                 return "Please enter a valid $key.";
             }
@@ -70,11 +109,12 @@ class DFormField extends StatefulWidget {
     final bool? autoFocus;
     final bool? obscureText;
     final Widget? prefix;
-    final Widget? prefixIcon;
+    final IconData? prefixIcon;
     final Widget? suffix;
-    final Widget? suffixIcon;
+    final IconData? suffixIcon;
     final bool? labelFloat;
     final bool? readOnly;
+    final bool? enabled;
     final bool? autoExpand;
     final FloatingLabelBehavior? labelBehavior;
     final String? initialValue;
@@ -102,7 +142,8 @@ class DFormField extends StatefulWidget {
         this.suffix,
         this.suffixIcon,
         this.labelFloat,
-        this.readOnly,
+        this.readOnly = false,
+        this.enabled = true,
         this.autoExpand,
         this.labelBehavior,
         this.initialValue,
@@ -140,8 +181,15 @@ class _DFormFieldState extends State<DFormField> {
                     });
                     return "Please enter ${widget.validationKey}.";
                 }
-                if (widget.validations!.contains(DFValidation.email) && !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value!)) {
-                    return (isRequired && value.isEmpty) ? "Please enter ${widget.validationKey}." : "Please enter a valid ${widget.validationKey}";
+                if (widget.validations!.contains(DFValidation.email)) {
+                    String? error = DFValidator.isValidEmail(value!, widget.validationKey!, isRequired);
+
+                    if (error != null) {
+                        setState(() {
+                            isError = true;
+                        });
+                        return error;
+                    }
                 }
                 if (widget.validations!.contains(DFValidation.phone)) {
                     String? error = DFValidator.isValidPhone(value!, widget.validationKey!, isRequired);
@@ -153,8 +201,16 @@ class _DFormFieldState extends State<DFormField> {
                         return error;
                     }
                 }
-                if (widget.validations!.contains(DFValidation.url) && !RegExp(r'^(https?|ftp)://[^\s/$.?#].[^\s]*$').hasMatch(value!)) {
-                    return "Please enter a valid ${widget.validationKey}.";
+
+                if (widget.validations!.contains(DFValidation.url)) {
+                    String? error = DFValidator.isValidPhone(value!, widget.validationKey!, isRequired);
+
+                    if (error != null) {
+                        setState(() {
+                            isError = true;
+                        });
+                        return error;
+                    }
                 }
 
                 setState(() {
@@ -181,12 +237,16 @@ class _DFormFieldState extends State<DFormField> {
                 setState(() {
                     isEnabled = true;
                 });
-                if (widget.onTap != null) {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    widget.onTap!();
+                if (widget.readOnly != null && widget.readOnly! == true) {
+                    if (widget.onTap != null) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        widget.onTap!();
+                    }
+                    return;
                 }
             },
             readOnly: widget.readOnly ?? false,
+            enabled: widget.enabled,
             maxLines: widget.maxLines ?? (widget.autoExpand != null && widget.autoExpand == true ? null : 1),
             decoration: InputDecoration(
                 constraints: BoxConstraints(
@@ -194,8 +254,8 @@ class _DFormFieldState extends State<DFormField> {
                     minWidth: double.infinity,
                 ),
                 prefixText: widget.prefixText,
-                contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20, vertical: 12
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal: 15, vertical: widget.minLines != null && widget.minLines! > 1 ? 20 :12
                 ), // Match AddressSection
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8), // Match AddressSection
@@ -226,16 +286,20 @@ class _DFormFieldState extends State<DFormField> {
                 prefixIcon: widget.prefixIcon != null ? Align(
                     widthFactor: 1.0,
                     heightFactor: 1.0,
-                    child: widget.prefixIcon
+                    child: Icon(widget.prefixIcon,
+                        color: isEnabled && !isError ? DColor.primary : isError ? DColor.danger : DColor.inputBorder
+                    )
                 )
                     : null,
                 prefixIconColor: isEnabled && !isError ? DColor.primary : isError ? DColor.danger : DColor.inputBorder,
                 suffix: widget.suffix,
-                suffixIcon: Align(
+                suffixIcon: widget.suffixIcon != null ? Align(
                     widthFactor: 1.0,
                     heightFactor: 1.0,
-                    child: widget.suffixIcon
-                ),
+                    child: Icon(widget.suffixIcon,
+                        color: isEnabled && !isError ? DColor.primary : isError ? DColor.danger : DColor.inputBorder
+                    )
+                ) : null,
                 suffixIconColor: isEnabled && !isError ? DColor.primary : isError ? DColor.danger : DColor.inputBorder,
                 filled: DTextFieldConfig.fillColor != Colors.transparent ? true : false,
                 fillColor: DTextFieldConfig.fillColor

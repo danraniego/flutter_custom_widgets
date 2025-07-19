@@ -1,20 +1,26 @@
 import 'package:c_widgets/core/d_form_field.dart';
 import 'package:flutter/material.dart';
 
-class DEmailField extends StatelessWidget {
+class DTextAreaField extends StatelessWidget {
 
   final TextEditingController controller;
   final String labelText;
   final String? hintText;
   final String? validationKey;
   final bool? required;
+  final bool? readOnly;
+  final IconData? prefixIcon;
+  final IconData? suffixIcon;
 
-  const DEmailField({
+  const DTextAreaField({
     required this.controller,
     required this.labelText,
     this.hintText,
     this.validationKey,
     this.required = false,
+    this.readOnly = false,
+    this.prefixIcon,
+    this.suffixIcon,
     super.key
   });
 
@@ -22,14 +28,19 @@ class DEmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return DFormField(
       controller: controller,
-      inputType: TextInputType.emailAddress,
+      inputType: TextInputType.text,
       labelText: labelText,
       hintText: hintText,
       validationKey: validationKey,
       validations: [
-        ? (required == true) ? DFValidation.required : null,
-        DFValidation.email
+        ? (required == true) ? DFValidation.required : null
       ],
+      readOnly: readOnly,
+      enabled: !(readOnly == true),
+      prefixIcon: prefixIcon,
+      suffixIcon: suffixIcon,
+      minLines: 2,
+      autoExpand: true,
     );
   }
 

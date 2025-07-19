@@ -25,6 +25,7 @@ class ItemRow extends StatelessWidget {
                 ),
                 if (title != null) const SizedBox(height: 20),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                         for (var child in children)
                             Expanded(

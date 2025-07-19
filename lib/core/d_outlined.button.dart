@@ -31,8 +31,10 @@ class DOutlinedButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0)
                 ),
-                side: BorderSide(width: 1.0, color: loading == true || disabled == true ?
-                        foregroundColor.withValues(alpha: 0.7) : foregroundColor),
+                side: BorderSide(
+                    width: 1.0,
+                    color: loading == true || disabled == true ? foregroundColor.withValues(alpha: 0.7) : foregroundColor
+                ),
                 minimumSize: Size(double.infinity, 50)
             ),
             onPressed: disabled == true || loading == true ? null : onPressed,
