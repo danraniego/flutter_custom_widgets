@@ -1,3 +1,5 @@
+import 'package:c_widgets/constants/dbutton.type.dart';
+import 'package:c_widgets/widgets/buttons/d_icon.button.dart';
 import 'package:c_widgets/widgets/forms/fields/types/d_address.field.dart';
 import 'package:c_widgets/widgets/forms/fields/types/d_email.field.dart';
 import 'package:c_widgets/widgets/forms/fields/types/d_number.field.dart';
@@ -26,12 +28,42 @@ enum DInputType {
 
 class PhoneOptions {
     final List<DCountryPhoneCode>? countryCodes;
-    final DCountryPhoneCode? initialCountryCode;
+    final String? initialCountryCode;
 
     const PhoneOptions({
         this.countryCodes = const[],
         this.initialCountryCode
     });
+}
+
+class DInputPrefixButton extends StatelessWidget {
+
+    final IconData icon;
+    final VoidCallback? onPressed;
+
+    const DInputPrefixButton({
+        required this.icon,
+        this.onPressed,
+        super.key
+    });
+
+    @override
+    Widget build(BuildContext context) {
+        return Container(
+            margin: EdgeInsets.only(right: 10, top: 5, bottom: 5),
+            child: DIconButton(
+                width: 25,
+                height: 25,
+                type: DButtonType.elevated,
+                color: DButtonColor.primary,
+                icon: icon,
+                onPressed: () {
+
+                }
+            )
+        );
+    }
+
 }
 
 class DInputField extends StatelessWidget {
@@ -45,7 +77,10 @@ class DInputField extends StatelessWidget {
     final bool? readOnly;
     final IconData? leftIcon;
     final IconData? rightIcon;
-    final PhoneOptions? options;
+    final Widget? suffix;
+    final String? countryCode;
+    final VoidCallback? onPrefixTap;
+    final OnChangedCallBack? onChanged;
 
     const DInputField({
         this.controller,
@@ -57,7 +92,10 @@ class DInputField extends StatelessWidget {
         this.readOnly = false,
         this.leftIcon,
         this.rightIcon,
-        this.options,
+        this.suffix,
+        this.countryCode,
+        this.onPrefixTap,
+        this.onChanged,
         super.key
     });
 
@@ -73,28 +111,9 @@ class DInputField extends StatelessWidget {
                     required: required,
                     readOnly: readOnly,
                     prefixIcon: leftIcon,
-                    suffixIcon: rightIcon
-                );
-            case DInputType.password:
-                return DPasswordField(
-                    controller: controller,
-                    labelText: labelText,
-                    hintText: hintText,
-                    validationKey: validationKey,
-                    required: required,
-                    readOnly: readOnly,
-                    prefixIcon: leftIcon,
-                );
-            case DInputType.phone:
-                return DPhoneField(
-                    controller: controller,
-                    labelText: labelText,
-                    validationKey: validationKey,
-                    required: required,
-                    readOnly: readOnly,
                     suffixIcon: rightIcon,
-                    countryCodes: options?.countryCodes,
-                    initialCountryCode: options?.initialCountryCode
+                    suffix: suffix,
+                    onChanged: onChanged
                 );
             case DInputType.email:
                 return DEmailField(
@@ -105,7 +124,46 @@ class DInputField extends StatelessWidget {
                     required: required,
                     readOnly: readOnly,
                     prefixIcon: leftIcon,
-                    suffixIcon: rightIcon
+                    suffixIcon: rightIcon,
+                    suffix: suffix,
+                    onChanged: onChanged
+                );
+            case DInputType.phone:
+                return DPhoneField(
+                    controller: controller,
+                    labelText: labelText,
+                    validationKey: validationKey,
+                    required: required,
+                    readOnly: readOnly,
+                    suffixIcon: rightIcon,
+                    countryCode: countryCode,
+                    onCountryCodeTap: onPrefixTap,
+                    suffix: suffix,
+                    onChanged: onChanged
+                );
+            case DInputType.password:
+                return DPasswordField(
+                    controller: controller,
+                    labelText: labelText,
+                    hintText: hintText,
+                    validationKey: validationKey,
+                    required: required,
+                    readOnly: readOnly,
+                    prefixIcon: leftIcon,
+                    onChanged: onChanged
+                );
+            case DInputType.number:
+                return DNumberField(
+                    controller: controller,
+                    labelText: labelText,
+                    hintText: hintText,
+                    validationKey: validationKey,
+                    required: required,
+                    readOnly: readOnly,
+                    prefixIcon: leftIcon,
+                    suffixIcon: rightIcon,
+                    suffix: suffix,
+                    onChanged: onChanged
                 );
             case DInputType.url:
                 return DUrlField(
@@ -116,19 +174,10 @@ class DInputField extends StatelessWidget {
                     required: required,
                     readOnly: readOnly,
                     prefixIcon: leftIcon,
-                    suffixIcon: rightIcon
+                    suffixIcon: rightIcon,
+                    suffix: suffix,
+                    onChanged: onChanged
                 );
-            case DInputType.number:
-              return DNumberField(
-                  controller: controller,
-                  labelText: labelText,
-                  hintText: hintText,
-                  validationKey: validationKey,
-                  required: required,
-                  readOnly: readOnly,
-                  prefixIcon: leftIcon,
-                  suffixIcon: rightIcon
-              );
             case DInputType.address:
                 return DAddressField(
                     controller: controller,
@@ -138,7 +187,9 @@ class DInputField extends StatelessWidget {
                     required: required,
                     readOnly: readOnly,
                     prefixIcon: leftIcon,
-                    suffixIcon: rightIcon
+                    suffixIcon: rightIcon,
+                    suffix: suffix,
+                    onChanged: onChanged
                 );
             case DInputType.textarea:
                 return DTextAreaField(
@@ -149,7 +200,9 @@ class DInputField extends StatelessWidget {
                     required: required,
                     readOnly: readOnly,
                     prefixIcon: leftIcon,
-                    suffixIcon: rightIcon
+                    suffixIcon: rightIcon,
+                    suffix: suffix,
+                    onChanged: onChanged
                 );
             case DInputType.search:
                 return DTextField(
@@ -158,7 +211,12 @@ class DInputField extends StatelessWidget {
                     hintText: hintText,
                     readOnly: readOnly,
                     prefixIcon: CupertinoIcons.search,
+                    suffixIcon: rightIcon,
+                    suffix: suffix,
+                    onChanged: onChanged
                 );
         }
     }
 }
+
+typedef OnChangedCallBack = void Function(String? value);

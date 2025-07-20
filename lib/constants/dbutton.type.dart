@@ -13,3 +13,14 @@ enum DButtonSize {
   medium,
   large,
 }
+
+enum DButtonContent {
+  text,
+  icon
+}
+
+enum DButtonShape {
+  rounded,
+  square,
+  circle,
+}

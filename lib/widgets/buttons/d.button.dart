@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 class DButton extends StatelessWidget {
 
-  final String text;
   final DButtonType type;
   final DButtonColor color;
+  final String? text;
   final bool? loading;
   final bool? disabled;
   final IconData? leftIcon;
@@ -16,9 +16,9 @@ class DButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
   const DButton({
-    required this.text,
     required this.type,
     required this.color,
+    this.text,
     this.loading = false,
     this.disabled = false,
     this.leftIcon,
@@ -55,7 +55,7 @@ class DButton extends StatelessWidget {
     switch (type) {
       case DButtonType.elevated:
         return DElevatedButton(
-          text: text,
+          textChild: text,
           backgroundColor: getBackgroundColor(),
           foregroundColor: getForegroundColor(),
           loading: loading,
@@ -66,7 +66,7 @@ class DButton extends StatelessWidget {
         );
       case DButtonType.outlined:
         return DOutlinedButton(
-          text: text,
+          textChild: text,
           backgroundColor: getBackgroundColor(),
           foregroundColor: getForegroundColor(),
           loading: loading,

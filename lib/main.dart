@@ -33,9 +33,9 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const MyHomePage(title: 'Custom Widgets'),
         '/buttons/normal': (context) => const NormalButtons(),
         '/buttons/group': (context) => const GroupButtons(),
-        // '/forms': (context) => const Forms(),
+        '/forms': (context) => const Forms(),
         //
-        // '/sheets': (context) => const Sheets(),
+        '/sheets': (context) => const Sheets(),
       },
       initialRoute: '/home',
     );

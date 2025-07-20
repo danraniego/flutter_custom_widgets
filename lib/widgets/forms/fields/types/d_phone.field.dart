@@ -27,26 +27,28 @@ class DPhoneField extends StatelessWidget {
 
     final TextEditingController? controller;
     final String? labelText;
-    final List<DCountryPhoneCode>? countryCodes;
-    final DCountryPhoneCode? initialCountryCode;
+    final String? countryCode;
+    final VoidCallback? onCountryCodeTap;
     final String? hintText;
     final String? validationKey;
     final bool? required;
     final bool? readOnly;
     final IconData? suffixIcon;
-    final VoidCallback? onCountryCodeTap;
+    final Widget? suffix;
+    final OnChangedCallBack? onChanged;
 
     const DPhoneField({
         this.controller,
         this.labelText,
-        this.countryCodes,
-        this.initialCountryCode,
+        this.countryCode,
+        this.onCountryCodeTap,
         this.hintText,
         this.validationKey,
         this.required = false,
         this.readOnly = false,
         this.suffixIcon,
-        this.onCountryCodeTap,
+        this.suffix,
+        this.onChanged,
         super.key
     });
 
@@ -66,10 +68,15 @@ class DPhoneField extends StatelessWidget {
             readOnly: readOnly,
             enabled: readOnly == false,
             suffixIcon: suffixIcon,
-            prefix: initialCountryCode != null && readOnly == false ? InkWell(
-                    onTap: countryCodes!.isEmpty ? null : onCountryCodeTap,
+            prefix: countryCode != null && readOnly == false ?
+                InkWell(
+                    onTap: countryCode!.isEmpty ? null : () {
+                            if (onCountryCodeTap != null) {
+                                onCountryCodeTap!();
+                            }
+                        },
                     child: Container(
-                        width: initialCountryCode!.dialCode.length > 3 ? 80 : 60 - (countryCodes!.isEmpty ? 15 : 0),
+                        width: countryCode!.length > 3 ? 80 : 60 - (onCountryCodeTap == null ? 15 : 0),
                         margin: EdgeInsets.only(right: 15),
                         decoration: BoxDecoration(
                             border: Border(
@@ -81,17 +88,17 @@ class DPhoneField extends StatelessWidget {
                         ),
                         child: Row(
                             children: [
-                                Text(initialCountryCode?.dialCode ?? ''),
-                                if (countryCodes!.isNotEmpty) Container(
-                                    // color: Colors.red,
+                                Text(countryCode ?? ''),
+                                if (onCountryCodeTap != null) Padding(
                                     padding: EdgeInsets.only(left: 5),
                                     child: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black45)
                                 )
                             ]
                         )
                     )
-                ) : null
+                ) : null,
+            suffix: suffix,
+            onChanged: onChanged
         );
     }
-
 }

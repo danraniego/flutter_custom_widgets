@@ -13,6 +13,8 @@ class DNumberField extends StatelessWidget {
   final IconData? prefixIcon;
   final IconData? suffixIcon;
   final int? decimal;
+  final Widget? suffix;
+  final OnChangedCallBack? onChanged;
 
   const DNumberField({
     this.controller,
@@ -24,6 +26,8 @@ class DNumberField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.decimal = 2,
+    this.suffix,
+    this.onChanged,
     super.key
   });
 
@@ -44,6 +48,8 @@ class DNumberField extends StatelessWidget {
       enabled: !(readOnly == true),
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
+      suffix: suffix,
+      onChanged: onChanged,
     );
   }
 

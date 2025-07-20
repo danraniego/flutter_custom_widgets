@@ -11,6 +11,8 @@ class DTextField extends StatelessWidget {
   final bool? readOnly;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+  final Widget? suffix;
+  final OnChangedCallBack? onChanged;
 
   const DTextField({
     this.controller,
@@ -21,6 +23,8 @@ class DTextField extends StatelessWidget {
     this.readOnly = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.suffix,
+    this.onChanged,
     super.key
   });
 
@@ -39,7 +43,10 @@ class DTextField extends StatelessWidget {
       enabled: !(readOnly == true),
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
+      suffix: suffix,
+      onChanged: onChanged,
     );
   }
-
 }
+
+typedef OnChangedCallBack = void Function(String? value);

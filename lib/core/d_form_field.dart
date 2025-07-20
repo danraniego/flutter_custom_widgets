@@ -181,6 +181,7 @@ class _DFormFieldState extends State<DFormField> {
                     });
                     return "Please enter ${widget.validationKey}.";
                 }
+
                 if (widget.validations!.contains(DFValidation.email)) {
                     String? error = DFValidator.isValidEmail(value!, widget.validationKey!, isRequired);
 
@@ -292,14 +293,13 @@ class _DFormFieldState extends State<DFormField> {
                 )
                     : null,
                 prefixIconColor: isEnabled && !isError ? DColor.primary : isError ? DColor.danger : DColor.inputBorder,
-                suffix: widget.suffix,
-                suffixIcon: widget.suffixIcon != null ? Align(
+                suffixIcon: widget.suffix ?? (widget.suffixIcon != null ? Align(
                     widthFactor: 1.0,
                     heightFactor: 1.0,
                     child: Icon(widget.suffixIcon,
                         color: isEnabled && !isError ? DColor.primary : isError ? DColor.danger : DColor.inputBorder
                     )
-                ) : null,
+                ) : null),
                 suffixIconColor: isEnabled && !isError ? DColor.primary : isError ? DColor.danger : DColor.inputBorder,
                 filled: DTextFieldConfig.fillColor != Colors.transparent ? true : false,
                 fillColor: DTextFieldConfig.fillColor

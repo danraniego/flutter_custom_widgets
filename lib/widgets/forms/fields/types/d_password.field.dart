@@ -12,6 +12,7 @@ class DPasswordField extends StatefulWidget {
   final bool? readOnly;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+  final OnChangedCallBack? onChanged;
 
   const DPasswordField({
     this.controller,
@@ -22,6 +23,7 @@ class DPasswordField extends StatefulWidget {
     this.readOnly = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.onChanged,
     super.key
   });
 
@@ -49,7 +51,6 @@ class _DPasswordFieldState extends State<DPasswordField> {
       prefixIcon: widget.prefixIcon,
       obscureText: obscureText,
       suffix: Container(
-        color: Colors.red,
         margin: EdgeInsets.all(0),
         padding: EdgeInsets.all(0),
         child: InkWell(
@@ -58,11 +59,13 @@ class _DPasswordFieldState extends State<DPasswordField> {
                 obscureText = !obscureText;
               });
             },
-            child: Container(
-              child: Icon(CupertinoIcons.eye),
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Icon(obscureText ? CupertinoIcons.eye_slash : CupertinoIcons.eye),
             )
         ),
       ),
+      onChanged: widget.onChanged,
     );
   }
 }

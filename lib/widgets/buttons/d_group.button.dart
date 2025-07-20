@@ -64,7 +64,7 @@ class _DGroupButtonState extends State<DGroupButton> {
                     for (int i = 0; i < widget.items.length; i++)
                         Expanded(
                             child: DOutlinedButton(
-                                text: widget.items[i].label,
+                                textChild: widget.items[i].label,
                                 leftIcon: widget.items[i].icon,
                                 active: selectedIndex == i,
                                 backgroundColor: selectedIndex == i ? getBackgroundColor() : getForegroundColor(),

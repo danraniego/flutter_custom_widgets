@@ -11,6 +11,8 @@ class DAddressField extends StatelessWidget {
   final bool? readOnly;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+  final Widget? suffix;
+  final OnChangedCallBack? onChanged;
 
   const DAddressField({
     this.controller,
@@ -21,6 +23,8 @@ class DAddressField extends StatelessWidget {
     this.readOnly = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.suffix,
+    this.onChanged,
     super.key
   });
 
@@ -41,6 +45,8 @@ class DAddressField extends StatelessWidget {
       suffixIcon: suffixIcon,
       minLines: 2,
       maxLines: 3,
+      suffix: suffix,
+      onChanged: onChanged,
     );
   }
 
